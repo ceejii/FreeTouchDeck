@@ -38,6 +38,7 @@
   
 */
 
+#pragma region enable captouch
 // ------- Uncomment the next line if you use capacitive touch -------
 // (THE ESP32 TOUCHDOWN USES THIS!)
 //#define USECAPTOUCH
@@ -49,16 +50,19 @@
 // PAY ATTENTION! Even if resistive touch is not used, the TOUCH pin has to be defined!
 // It can be a random unused pin.
 // TODO: Find a way around this!
+#pragma endregion
 
+#pragma region defines
 // ------- Uncomment the define below if you want to use SLEEP and wake up on touch -------
 // The pin where the IRQ from the touch screen is connected uses ESP-style GPIO_NUM_* instead of just pinnumber
 #define touchInterruptPin GPIO_NUM_27
 
 // ------- Uncomment the define below if you want to use a piezo buzzer and specify the pin where the speaker is connected -------
 //#define speakerPin 26
-
+#pragma endregion
 const char *versionnumber = "0.9.11";
 
+#pragma region Version info
     /* Version 0.9.11.
      *  
      * Fix: F21 in the configurator was F22 as action and F22 was missing from configurator.
@@ -85,7 +89,9 @@ const char *versionnumber = "0.9.11";
      * 
      * Make sure to check if you use your old config files that they match the structure of the new ones!
     */
+#pragma endregion
 
+#pragma region includes
 #include <pgmspace.h> // PROGMEM support header
 #include <FS.h>       // Filesystem support header
 #include <SPIFFS.h>   // Filesystem support header
@@ -115,13 +121,16 @@ const char *versionnumber = "0.9.11";
 #include <FT6236.h>
 FT6236 ts = FT6236();
 #endif
+#pragma endregion
 
+#pragma region globals
 BleKeyboard bleKeyboard("FreeTouchDeck", "Made by me");
 
 AsyncWebServer webserver(80);
 
 TFT_eSPI tft = TFT_eSPI();
-
+#pragma endregion
+#pragma region TODO defines
 // Define the storage to be used. For now just SPIFFS.
 #define FILESYSTEM SPIFFS
 
@@ -156,7 +165,8 @@ TFT_eSPI tft = TFT_eSPI();
 
 // Text Button Label Font
 #define LABEL_FONT &FreeSansBold12pt7b
-
+#pragma endregion
+#pragma region TODO globals 2
 // placeholder for the pagenumber we are on (0 indicates home)
 int pageNum = 0;
 
@@ -173,7 +183,8 @@ char logopath[64] = "/logos/";
 
 // templogopath is used to hold the complete path of an image. It is empty for now.
 char templogopath[64] = "";
-
+#pragma endregion
+#pragma region TODO structs definitons
 // Struct to hold the logos per screen
 struct Logos
 {
@@ -250,10 +261,12 @@ struct Wificonfig
   uint8_t attempts;
   uint16_t attemptdelay;
 };
-
+#pragma endregion
+#pragma region TODO latching statuses
 // Array to hold all the latching statuses
 bool islatched[30] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
-
+#pragma endregion
+#pragma region TODO structs instances
 // Create instances of the structs
 Wificonfig wificonfig;
 
@@ -275,21 +288,27 @@ Menu menu3;
 Menu menu4;
 Menu menu5;
 Menu menu6;
+#pragma endregion
 
 unsigned long previousMillis = 0;
 unsigned long Interval = 0;
 bool displayinginfo;
 char* jsonfilefail = "";
 
+#pragma region TODO create buttons
 // Invoke the TFT_eSPI button class and create all the button objects
 TFT_eSPI_Button key[6];
+#pragma endregion
 
+#pragma region BLE Keyboard version check
 // Checking for BLE Keyboard version
 #ifndef BLE_KEYBOARD_VERSION
   #warning Old BLE Keyboard version detected. Please update.
   #define BLE_KEYBOARD_VERSION "Outdated"
 #endif  
+#pragma endregion
 
+#pragma region header file references
 //--------- Internal references ------------
 // (this needs to be below all structs etc..)
 #include "ScreenHelper.h"
@@ -299,7 +318,9 @@ TFT_eSPI_Button key[6];
 #include "Action.h"
 #include "Webserver.h"
 #include "Touch.h"
+#pragma endregion
 
+#pragma region setup
 //-------------------------------- SETUP --------------------------------------------------------------
 
 void setup()
@@ -574,7 +595,9 @@ if(generalconfig.beep){
   }
 #endif
 }
+#pragma endregion
 
+#pragma region loop
 //--------------------- LOOP ---------------------------------------------------------------------
 
 void loop(void)
@@ -1601,3 +1624,4 @@ void loop(void)
     }
   }
 }
+#pragma endregion
