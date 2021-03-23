@@ -144,13 +144,20 @@ TFT_eSPI tft = TFT_eSPI();
 // Repeat calibration if you change the screen rotation.
 #define REPEAT_CAL false
 
+// Button counts and implicit arrangement
+#define BUTTON_COUNT_HORIZONTAL 3
+#define BUTTON_COUNT_VERTICAL 2
+#define BUTTON_COUNT_TOTAL BUTTON_COUNT_HORIZONTAL * BUTTON_COUNT_VERTICAL
+//TODO: support orientation through button count horizontal vs vertical.
+//#define ORIENTATION BUTTON_COUNT_HORIZONTAL > BUTTON_COUNT_VERTICAL
+
 // Set the width and height of your screen here:
 #define SCREEN_WIDTH 480
 #define SCREEN_HEIGHT 320
 
 // Keypad start position, centre of the first button
-#define KEY_X SCREEN_WIDTH / 6
-#define KEY_Y SCREEN_HEIGHT / 4
+#define KEY_X SCREEN_WIDTH / (BUTTON_COUNT_HORIZONTAL * 2)
+#define KEY_Y SCREEN_HEIGHT / (BUTTON_COUNT_VERTICAL * 2)
 
 // Gaps between buttons
 #define KEY_SPACING_X SCREEN_WIDTH / 24
@@ -174,6 +181,7 @@ int pageNum = 0;
 int ledBrightness = 255;
 
 // Every button has a row associated with it
+//TODO: Make dynamic
 uint8_t rowArray[6] = {0, 0, 0, 1, 1, 1};
 // Every button has a column associated with it
 uint8_t colArray[6] = {0, 1, 2, 0, 1, 2};
@@ -186,6 +194,7 @@ char templogopath[64] = "";
 #pragma endregion
 #pragma region TODO structs definitons
 // Struct to hold the logos per screen
+//TODO: Here be dragon
 struct Logos
 {
   char logo0[32];
@@ -219,6 +228,7 @@ struct Button
 };
 
 // Each menu has 6 buttons
+//TODO: Here be dragon
 struct Menu
 {
   struct Button button0;
@@ -264,6 +274,8 @@ struct Wificonfig
 #pragma endregion
 #pragma region TODO latching statuses
 // Array to hold all the latching statuses
+//TODO: Here be dragon?
+//TODO: How to initialize the correct number?
 bool islatched[30] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 #pragma endregion
 #pragma region TODO structs instances
@@ -274,6 +286,8 @@ Config generalconfig;
 
 Generallogos generallogo;
 
+//TODO: Here be dragon?
+//TODO: Dynamic count?
 Logos screen0;
 Logos screen1;
 Logos screen2;
@@ -295,9 +309,9 @@ unsigned long Interval = 0;
 bool displayinginfo;
 char* jsonfilefail = "";
 
-#pragma region TODO create buttons
+#pragma region DONE create buttons
 // Invoke the TFT_eSPI button class and create all the button objects
-TFT_eSPI_Button key[6];
+TFT_eSPI_Button key[BUTTON_COUNT_TOTAL];
 #pragma endregion
 
 #pragma region BLE Keyboard version check
