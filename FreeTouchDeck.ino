@@ -276,6 +276,7 @@ struct Wificonfig
 // Array to hold all the latching statuses
 //TODO: Here be dragon?
 //TODO: How to initialize the correct number?
+//TODO: Should only be 25 (or ((w*h-1)^2)-(w*h-1) buttons). Currently 28 is used for sleep enable latching.
 bool islatched[30] = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0};
 #pragma endregion
 #pragma region TODO structs instances
@@ -605,6 +606,7 @@ if(generalconfig.beep){
     Serial.print("[INFO]: Sleep timer = ");
     Serial.print(generalconfig.sleeptimer);
     Serial.println(" minutes");
+    //TODO: replace islatched[28] with another boolean
     islatched[28] = 1;
   }
 #endif
@@ -1612,6 +1614,7 @@ void loop(void)
           else if (b == 3) // Button 3
           {
             bleKeyboardAction(11, 4, 0);
+            //TODO: replace islatched[28] with another boolean
             if (islatched[28])
             {
               islatched[28] = 0;
